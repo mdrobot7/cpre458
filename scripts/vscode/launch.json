@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "name": "Debug",
+      "cwd": "${workspaceRoot}",
+      "executable": "${workspaceRoot}/./build/cpre458.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "runToEntryPoint": "main",
+      "servertype": "bmp",
+      "BMPGDBSerialPort": "CONFIGURE_ME",
+      "svdPath": "${workspaceRoot}/./lib/CMSIS/samd21c/include/../svd/ATSAMD21E15L.svd",
+      "gdbPath": "CONFIGURE_ME",
+      "objdumpPath": "arm-none-eabi-objdump",
+      "preLaunchTask": "Build"
+    }
+  ]
+}

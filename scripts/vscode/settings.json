@@ -1,0 +1,23 @@
+{
+  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.formatOnSave": true,
+  "makefile.configureOnOpen": true,
+  "makefile.defaultLaunchConfiguration": "all",
+  "makefile.launchConfigurations": [
+    {
+      "cwd": "${workspaceRoot}/build",
+      "binaryPath": "${workspaceRoot}/build/cpre458.elf",
+      "binaryArgs": []
+    }
+  ],
+  "editor.indentSize": "2",
+  "editor.detectIndentation": false,
+  "search.exclude": {
+    "**/lib/CMSIS/samd21a/*": true,
+    "**/lib/CMSIS/samd21b/*": true,
+    "**/lib/CMSIS/samd21d/*": true,
+  },
+  "cortex-debug.variableUseNaturalFormat": true,
+}
