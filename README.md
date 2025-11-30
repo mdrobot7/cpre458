@@ -1,4 +1,4 @@
-# power-supply
+# CPRE 458 Final Project: RTOS for Atmel SAMD21
 ### Directories
 - `/lib`: Third-party software libraries.
 - `/scripts`: Helper Python and Linker scripts.
