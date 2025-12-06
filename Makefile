@@ -54,7 +54,7 @@ $(BUILD_DIR)/%.s.o: %.s
 
 # Run stack analyzer
 stack-analyze: $(BUILD_DIR)/$(TARGET_ELF)
-	python ./scripts/stack_analyze.py $(BUILD_DIR)/$(TARGET_ELF) $(BUILD_DIR)/$(subst .elf,.stack,$(TARGET_ELF))
+	-python ./scripts/stack_analyze.py $(BUILD_DIR)/$(TARGET_ELF) $(BUILD_DIR)/$(subst .elf,.stack,$(TARGET_ELF))
 
 # Generate ./build/compile_commands.json using compiledb
 compiledb:
