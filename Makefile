@@ -23,7 +23,8 @@ CPPFLAGS := -MMD -MP -I$(CMSIS_PATH) -I$(CMSIS_CORE_PATH)
 LDFLAGS := --gc-sections
 
 SOURCES := $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*.c) # Shell "find" sucks on Windows, so we're doing this
-OBJS := $(SOURCES:%=$(BUILD_DIR)/%.o)
+ASMS := $(wildcard $(SRC_DIR)/*.s) $(wildcard $(SRC_DIR)/*/*.s)
+OBJS := $(SOURCES:%=$(BUILD_DIR)/%.o) $(ASMS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d) # Generate sub-makefiles for each C source
 
 # Turn LDFLAGS into -Wl,[flag],[flag]... to pass to GCC

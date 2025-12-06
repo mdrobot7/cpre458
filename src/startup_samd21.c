@@ -27,6 +27,7 @@
  *
  */
 
+#include "platform/platform.h"
 #include "samd21.h"
 
 /* Initialize segments */
@@ -131,7 +132,7 @@ const DeviceVectors exception_table
       .pvReservedM4              = (void *) (0UL), /* Reserved */
       .pvReservedM3              = (void *) (0UL), /* Reserved */
       .pfnPendSV_Handler         = (void *) PendSV_Handler,
-      .pfnSysTick_Handler        = (void *) SysTick_Handler,
+      .pfnSysTick_Handler        = (void *) Platform_SysTick_Handler,
 
       /* Configurable interrupts */
       .pfnPM_Handler      = (void *) PM_Handler,      /*  0 Power Manager */

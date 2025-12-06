@@ -9,6 +9,8 @@
  * EXTERN VARIABLES
  ************************************/
 
+volatile int32_t scheduler_active_task = TASK_NONE;
+
 /************************************
  * PRIVATE MACROS AND TYPEDEFS
  ************************************/
@@ -24,8 +26,6 @@ static uint32_t period_lcm;
 
 static volatile Task_t * priv_tasks;
 static int priv_num_tasks;
-static int32_t active_task = TASK_NONE;
-static uint32_t active_sp  = 0;
 
 /************************************
  * STATIC FUNCTIONS
@@ -105,9 +105,10 @@ static int __noinline mk_firm(Task_t * tasks, int num_tasks) {
 
   if (smallest_period_idx == num_tasks) {
     // No tasks refreshed, resume what we were doing
-    return active_task;
+    return scheduler_active_task;
   } else {
     // Preempt the running task
+    scheduler_active_task = smallest_period_idx;
     return smallest_period_idx;
   }
 }
@@ -140,31 +141,6 @@ int scheduler_init(volatile Task_t * tasks, int num_tasks) {
   return 0;
 }
 
-__always_inline void scheduler_run() {
-  // NOTE: DON'T USE STACK in this function! The stack pointer value is important!
-  platform_push_all_regs();
-
-  // Stash the stack pointer from the interrupted process
-  platform_active_sp_to_var(active_sp);
-
-  register int task_to_run = mk_firm(priv_tasks, priv_num_tasks);
-
-  if (task_to_run == TASK_NONE || task_to_run == active_task) {
-    // Return and resume as normal, either to the task that was interrupted
-    // or to an infinite WFI loop at the end of a task.
-    return;
-  }
-
-  // If we want to return somewhere other than the interrupted process,
-  // it's a matter of Indiana-Jones-swapping the IRQ stack frame and then
-  // exiting as normal.
-  priv_tasks[active_task].sch.sp = active_sp;
-  platform_active_var_to_sp(priv_tasks[task_to_run].sch.sp);
-
-  if (priv_tasks[task_to_run].sch.task_started) {
-    // Restore previous core state
-    platform_pop_all_regs();
-  } else {
-    platform_setup_task(priv_tasks[task_to_run].entry_point);
-  }
+__noinline int scheduler_run() {
+  return mk_firm(priv_tasks, priv_num_tasks);
 }

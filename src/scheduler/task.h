@@ -17,16 +17,19 @@
   }
 
 
-typedef struct {
+// Size: 16
+typedef struct __packed {
   uint32_t sp;
   uint32_t timer;
-  bool task_started;
-  bool task_finished;
-  bool task_missed;
   uint32_t optional_task_time;
+  uint8_t task_started;
+  uint8_t task_finished;
+  uint8_t task_missed;
+  uint8_t _reserved;
 } SchedulerData_t;
 
-typedef struct {
+// Size: 36
+typedef struct __packed {
   uint32_t entry_point;
   uint32_t initial_sp;
 
@@ -36,6 +39,7 @@ typedef struct {
   uint8_t k;
   uint8_t mo_pattern; // Mandatory/optional pattern: 1 = M, 0 = O. Making the
                       // user make it is easier than convincing a computer.
+  uint8_t _reserved;
 
   SchedulerData_t sch; // Scheduler-private, initialize to 0
 } Task_t;
