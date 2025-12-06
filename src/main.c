@@ -1,11 +1,22 @@
 #include "common/common.h"
 #include "conf/conf.h"
+#include "scheduler/scheduler.h"
+#include "scheduler/task.h"
+#include "tasks/tasks.h"
 
 #include <samd21.h>
 
 /************************************
+ * STATIC VARIABLES
+ ************************************/
+
+/************************************
  * INTERRUPT HANDLERS
  ************************************/
+
+void SysTick_Handler() {
+  scheduler_run();
+}
 
 /************************************
  * MAIN
