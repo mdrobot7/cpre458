@@ -14,6 +14,9 @@
 #ifndef __packed
 #define __packed __attribute__((packed))
 #endif
+#ifndef __always_inline
+#define __always_inline __attribute__((__always_inline__))
+#endif
 
 #define PORTA (&PORT->Group[0])
 #define PORTB (&PORT->Group[1])
