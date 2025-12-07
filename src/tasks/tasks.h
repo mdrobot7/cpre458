@@ -9,5 +9,6 @@ extern const int num_tasks;
 
 void task_blinky0();
 void task_blinky1();
+void task_blinky2();
 
 #endif

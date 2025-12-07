@@ -80,12 +80,11 @@ static void find_lcm(Task_t * tasks, int num_tasks) {
   }
 }
 
-static int mk_firm(Task_t * tasks, int num_tasks) {
+static int rms(Task_t * tasks, int num_tasks) {
   // RMS priority for mandatory runs (smaller period is higher priority),
   // FIFO for optional runs.
 
   // Find the highest priority task that refreshed.
-  // TODO: this is RMS, change to MK firm
   uint32_t smallest_period = scheduler_active_task != TASK_NONE ? tasks[scheduler_active_task].p : 0xFFFFFFFF;
   int smallest_period_idx  = num_tasks;
   for (int i = 0; i < num_tasks; i++) {
@@ -99,7 +98,7 @@ static int mk_firm(Task_t * tasks, int num_tasks) {
       tasks[i].sch.task_ready    = true;
     }
 
-    if (tasks[i].sch.task_ready && tasks[i].p < smallest_period) {
+    if ((tasks[i].sch.task_ready || !tasks[i].sch.task_finished) && tasks[i].p < smallest_period) {
       smallest_period     = tasks[i].p;
       smallest_period_idx = i;
     }
@@ -145,5 +144,5 @@ int scheduler_init(volatile Task_t * tasks, int num_tasks) {
 }
 
 __noinline int scheduler_run() {
-  return mk_firm(priv_tasks, priv_num_tasks);
+  return rms(priv_tasks, priv_num_tasks);
 }

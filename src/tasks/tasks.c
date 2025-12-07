@@ -24,6 +24,16 @@ volatile Task_t tasks[] = {
     .mo_pattern  = TASK_MO_UNCONFIGURED,
     .sch         = { TASK_SCH_INIT_VAL },
   },
+  {
+    .entry_point = (uint32_t) (&task_blinky2),
+    .initial_sp  = 0x300,
+    .c           = 1,
+    .p           = 50,
+    .m           = 2,
+    .k           = 3,
+    .mo_pattern  = TASK_MO_UNCONFIGURED,
+    .sch         = { TASK_SCH_INIT_VAL },
+  },
 };
 
 const int num_tasks = ARRAY_SIZE(tasks);

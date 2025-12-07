@@ -45,3 +45,17 @@ void task_blinky1() {
   asm("nop");
   TASK_CLEANUP(tasks[1]);
 }
+
+void task_blinky2() {
+  TASK_STARTUP(tasks[2]);
+
+  // This physically hurts me... just use OUTTGL, kids
+  volatile int use_stack_unnecessarily = PORTA->OUT.reg & PORT_PA18;
+  if (use_stack_unnecessarily) {
+    use_stack_unnecessarily = 0;
+  } else {
+    use_stack_unnecessarily = PORT_PA18;
+  }
+  PORTA->OUT.reg = (PORTA->OUT.reg & ~PORT_PA18) | use_stack_unnecessarily;
+  TASK_CLEANUP(tasks[2]);
+}

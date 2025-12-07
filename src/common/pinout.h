@@ -40,7 +40,7 @@
     PINFUNC_UNUSED, /* PA15 */ \
     PINFUNC_UNUSED, /* PA16 */ \
     PINFUNC_UNUSED, /* PA17 */ \
-    PINFUNC_UNUSED, /* PA18 */ \
+    PINFUNC_OUTPUT, /* PA18 */ \
     PINFUNC_UNUSED, /* PA19 */ \
     PINFUNC_UNUSED, /* PA20 */ \
     PINFUNC_UNUSED, /* PA21 */ \
