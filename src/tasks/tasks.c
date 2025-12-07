@@ -17,8 +17,8 @@ volatile Task_t tasks[] = {
   {
     .entry_point = (uint32_t) (&task_blinky1),
     .initial_sp  = 0x200,
-    .c           = 3,
-    .p           = 10000,
+    .c           = 100,
+    .p           = 1000,
     .m           = 2,
     .k           = 3,
     .mo_pattern  = TASK_MO_UNCONFIGURED,

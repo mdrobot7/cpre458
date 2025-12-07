@@ -114,7 +114,7 @@ no_active_task:
   /*
     if (tasks[task_to_run].sch.task_started) {}
   */
-  adds r3, #12 // &Task_t.sch.sp + 12 = &Task_t.sch.task_started
+  adds r3, #13 // &Task_t.sch.sp + 12 = &Task_t.sch.task_started
   ldrb r4, [r3]
   cmp r4, #0
   beq start_new_task
@@ -126,7 +126,7 @@ restore_core_state:
   mov r11, r3
   b exit
 start_new_task:
-  subs r3, #32 // &Task_t.sch.task_started - 32 = &Task_t.entry_point
+  subs r3, #33 // &Task_t.sch.task_started - 32 = &Task_t.entry_point
   ldr r5, [r3]
   sub sp, #32 // Allocate the exception stack frame
   ldr r6, =0x01000000 // Force T-bit high

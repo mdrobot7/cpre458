@@ -15,6 +15,12 @@ extern uint32_t _estack;
 
 #define TASK_SCH_INIT_VAL (0)
 
+#define TASK_STARTUP(task_struct)         \
+  do {                                    \
+    task_struct.sch.task_started = true;  \
+    task_struct.sch.task_ready   = false; \
+  } while (0)
+
 #define TASK_CLEANUP(task_struct)                                               \
   do {                                                                          \
     task_struct.sch.task_finished = true;                                       \
@@ -31,10 +37,10 @@ typedef struct __packed {
   uint32_t sp;
   uint32_t timer;
   uint32_t optional_task_time;
+  uint8_t task_ready;
   uint8_t task_started;
   uint8_t task_finished;
   uint8_t task_missed;
-  uint8_t _reserved;
 } SchedulerData_t;
 
 // Size: 36
