@@ -6,9 +6,9 @@
 volatile Task_t tasks[] = {
   {
     .entry_point = (uint32_t) (&task_blinky0),
-    .initial_sp  = 0xC00,
-    .c           = 3,
-    .p           = 10,
+    .initial_sp  = 0x100,
+    .c           = 100,
+    .p           = 500,
     .m           = 2,
     .k           = 3,
     .mo_pattern  = TASK_MO_UNCONFIGURED,
@@ -16,9 +16,9 @@ volatile Task_t tasks[] = {
   },
   {
     .entry_point = (uint32_t) (&task_blinky1),
-    .initial_sp  = 0xB00,
+    .initial_sp  = 0x200,
     .c           = 3,
-    .p           = 10,
+    .p           = 10000,
     .m           = 2,
     .k           = 3,
     .mo_pattern  = TASK_MO_UNCONFIGURED,

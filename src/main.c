@@ -23,9 +23,9 @@ void main() {
   conf();
 
   /* INITS */
+  asm("nop");
+  volatile int error = scheduler_init(tasks, num_tasks);
+  UNUSED(error);
 
-  while (1) {
-    PORTA->OUTTGL.reg = PORT_PA02;
-    busy_wait_ms(48000, 250);
-  }
+  while (1) {}
 }

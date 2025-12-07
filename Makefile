@@ -15,7 +15,7 @@ LD_SCRIPT := ./scripts/samd21e15l_flash.ld
 
 CC := arm-none-eabi-gcc
 COMMON_FLAGS := -specs=$(PICOLIBC_SPECS_PATH) --picolibc-prefix=$(PICOLIBC_PREFIX) \
-	-O3 -g -flto -march=armv6-m -mtune=cortex-m0plus -mthumb -mfloat-abi=soft \
+	-O1 -g -flto -march=armv6-m -mtune=cortex-m0plus -mthumb -mfloat-abi=soft \
 	-D$(CPU) -nostartfiles -ffreestanding -fstack-usage
 CFLAGS := -Wall -Wextra -Wno-address-of-packed-member -Wno-discarded-qualifiers \
 	-fdata-sections -ffunction-sections

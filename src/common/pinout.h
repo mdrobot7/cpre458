@@ -25,7 +25,7 @@
     PINFUNC_UNUSED, /* PA00 */ \
     PINFUNC_UNUSED, /* PA01 */ \
     PINFUNC_OUTPUT, /* PA02 */ \
-    PINFUNC_UNUSED, /* PA03 */ \
+    PINFUNC_OUTPUT, /* PA03 */ \
     PINFUNC_UNUSED, /* PA04 */ \
     PINFUNC_UNUSED, /* PA05 */ \
     PINFUNC_UNUSED, /* PA06 */ \

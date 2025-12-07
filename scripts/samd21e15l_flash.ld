@@ -32,18 +32,23 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 SEARCH_DIR(.)
 
-ROM_LENGTH  = 0x00008000;
-RAM_LENGTH  = 0x00001000;
+ROM_ORIGIN = 0x00000000;
+RAM_ORIGIN = 0x20000000;
+ROM_LENGTH = 0x00008000;
+RAM_LENGTH = 0x00001000;
 
 /* Memory Spaces Definitions */
 MEMORY
 {
-  rom      (rx)  : ORIGIN = 0x00000000, LENGTH = ROM_LENGTH
-  ram      (rwx) : ORIGIN = 0x20000000, LENGTH = RAM_LENGTH
+  rom      (rx)  : ORIGIN = ROM_ORIGIN, LENGTH = ROM_LENGTH
+  ram      (rwx) : ORIGIN = RAM_ORIGIN, LENGTH = RAM_LENGTH
 }
 
 /* The stack size used by the application. NOTE: you need to adjust according to your application. */
-STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : DEFINED(__stack_size__) ? __stack_size__ : 0x400;
+STACK_SIZE = 0x100;
+STACK_ADDR = RAM_ORIGIN + RAM_LENGTH - STACK_SIZE;
+TASK_STACK_SIZE = 0x400;
+TASK_STACK_ADDR = STACK_ADDR - TASK_STACK_SIZE;
 
 /* Start point for the code, remove sections that don't reference it */
 ENTRY(exception_table);
@@ -136,8 +141,18 @@ SECTIONS
         _ezero = .;
     } > ram
 
-    /* stack section */
-    .stack (NOLOAD):
+    /* Task stack section */
+    .task_stack TASK_STACK_ADDR (NOLOAD):
+    {
+        . = ALIGN(8);
+        _stask_stack = .;
+        . = . + TASK_STACK_SIZE;
+        . = ALIGN(8);
+        _etask_stack = .;
+    } > ram
+
+    /* Scheduler stack section */
+    .stack STACK_ADDR (NOLOAD):
     {
         . = ALIGN(8);
         _sstack = .;

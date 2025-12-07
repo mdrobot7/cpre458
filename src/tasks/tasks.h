@@ -1,6 +1,7 @@
 #ifndef _TASKS_H
 #define _TASKS_H
 
+#include "../scheduler/scheduler.h"
 #include "../scheduler/task.h"
 
 extern volatile Task_t tasks[];
