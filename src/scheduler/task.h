@@ -20,7 +20,9 @@ extern uint32_t _estack;
     task_struct.sch.task_finished = true;                                       \
     task_struct.sch.sp            = task_struct.initial_sp + TASK_STACK_ORIGIN; \
     scheduler_active_task         = TASK_NONE;                                  \
-    Platform_Task_Cleanup();                                                    \
+    while (1) {                                                                 \
+      platform_wfi();                                                           \
+    }                                                                           \
   } while (0)
 
 

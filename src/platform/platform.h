@@ -4,6 +4,9 @@
 #include "../common/common.h"
 
 extern void Platform_SysTick_Handler(void);
-extern void Platform_Task_Cleanup(void);
+
+__always_inline inline static void platform_wfi() {
+  __asm__ volatile("wfi");
+}
 
 #endif

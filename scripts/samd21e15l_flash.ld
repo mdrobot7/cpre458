@@ -47,8 +47,10 @@ MEMORY
 /* The stack size used by the application. NOTE: you need to adjust according to your application. */
 STACK_SIZE = 0x100;
 STACK_ADDR = RAM_ORIGIN + RAM_LENGTH - STACK_SIZE;
+SCHED_STACK_SIZE = 0x100;
+SCHED_STACK_ADDR = STACK_ADDR - SCHED_STACK_SIZE;
 TASK_STACK_SIZE = 0x400;
-TASK_STACK_ADDR = STACK_ADDR - TASK_STACK_SIZE;
+TASK_STACK_ADDR = SCHED_STACK_ADDR - TASK_STACK_SIZE;
 
 /* Start point for the code, remove sections that don't reference it */
 ENTRY(exception_table);
@@ -152,6 +154,16 @@ SECTIONS
     } > ram
 
     /* Scheduler stack section */
+    .sched_stack SCHED_STACK_ADDR (NOLOAD):
+    {
+        . = ALIGN(8);
+        _ssched_stack = .;
+        . = . + SCHED_STACK_SIZE;
+        . = ALIGN(8);
+        _esched_stack = .;
+    } > ram
+
+    /* Host stack section */
     .stack STACK_ADDR (NOLOAD):
     {
         . = ALIGN(8);

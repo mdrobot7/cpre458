@@ -1,12 +1,12 @@
 /*
   SysTick handler procedure (platform-specific).
 
-  TODO: Give scheduler its own stack region so it doesn't use the active process's
-
   Must perform the operations:
   - Save off core state (including exception return address) to
-    stack and record SP at this point
+    stack
+  - Swap to scheduler's stack
   - Call the scheduler
+  - Swap currently running process stack
   - Run the following snippet:
     if (task_to_run != TASK_NONE && task_to_run != active_task) {
       if (active_task != TASK_NONE) {
@@ -54,18 +54,24 @@ Platform_SysTick_Handler:
   mov r2, r10
   mov r3, r11
   push {r0, r1, r2, r3, r4, r5, r6, r7}
-  push {lr}
+  push {lr} // Stash lr before it's overwritten by bl scheduler_run
 
   /*
-    Save off the stack pointer, now that we're done stashing core state
+    Save off stack pointer and swap to scheduler's stack
   */
+  mov r4, sp
+  ldr r1, =_esched_stack
+  mov sp, r1
 
   /*
     Call scheduler, returns task_to_run in r0
   */
-  sub sp, #28 // sp must be 8-word aligned on function entry
   bl scheduler_run
-  add sp, #28
+
+  /*
+    Swap back to current task's stack
+  */
+  mov sp, r4
   pop {r7} // Pop exception's lr and save for later
   mov lr, r7
 
@@ -132,14 +138,3 @@ exit:
 /*
   Hardware: pop {r0, r1, r2, r3, r12, lr, return_addr, xPSR}
 */
-
-
-.global Platform_Task_Cleanup
-.thumb_func
-
-Platform_Task_Cleanup:
-  ldr r0, =_estack
-  mov sp, r0
-wfi_loop:
-  wfi
-  b wfi_loop
